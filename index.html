@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YouTube Tag Generator - Powered by DeepSeek</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+
+    body{
+      background:linear-gradient(135deg,#ff0000,#ff5e3a,#ff2a68);
+      min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px;color:#333;
+    }
+
+    .container{
+      background:rgba(255,255,255,0.97);
+      border-radius:20px;box-shadow:0 15px 30px rgba(0,0,0,0.3);
+      width:90%;max-width:900px;padding:30px;margin-top:20px;text-align:center;
+    }
+
+    header{text-align:center;margin-bottom:30px;}
+    h1{color:hsl(50, 20%, 94%);margin-bottom:10px;font-size:36px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:15px;}
+    .subtitle{color:#250e50;font-size:18px;margin-bottom:20px;}
+
+    .input-section{text-align:left;margin-bottom:25px;}
+    .input-section label{display:block;margin-bottom:8px;font-weight:600;color:#333;}
+    
+    .search-box{display:flex;align-items:center;gap:10px;}
+    input#video-title{
+      flex:1;
+      padding:12px 15px;
+      border:2px solid #ddd;
+      border-radius:10px;
+      font-size:15px;
+      transition:border .3s ease;
+    }
+    input#video-title:focus{border-color:#ff0000;outline:none;box-shadow:0 0 0 3px rgba(255,0,0,.2);}
+    .search-btn{
+      background:linear-gradient(135deg,#ff0000,#ff5e3a);
+      color:#fff;
+      padding:12px 20px;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+      transition:.3s;
+    }
+    .search-btn:hover{transform:translateY(-2px);}
+
+    .buttons{display:flex;justify-content:center;gap:10px;margin-top:20px;flex-wrap:wrap;align-items:center;}
+    button{padding:14px 30px;border:none;border-radius:50px;cursor:pointer;font-weight:600;transition:.3s;display:flex;align-items:center;gap:8px;}
+
+    .generate-btn{background:linear-gradient(135deg,#ff0000,#ff5e3a);color:#fff;box-shadow:0 4px 15px rgba(255,0,0,.3);}
+    .generate-btn:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(255,0,0,.5);}
+    .clear-btn{background:linear-gradient(135deg,#555,#777);color:#fff;box-shadow:0 4px 15px rgba(0,0,0,.2);}
+    .clear-btn:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.3);}
+    .copy-btn{background:linear-gradient(135deg,#0077b5,#00a0dc);color:#fff;box-shadow:0 4px 15px rgba(0,119,181,.3);}
+    .copy-btn:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,119,181,.5);}
+
+    .result-section{background:#f8f9fa;border-radius:15px;padding:25px;margin-top:20px;text-align:left;border:2px dashed #ff0000;}
+    .result-title{color:#ff0000;font-size:22px;margin-bottom:20px;font-weight:700;display:flex;align-items:center;gap:10px;}
+    .result-content{background:#fff;border-radius:10px;padding:20px;min-height:120px;border-left:5px solid #ff0000;font-size:17px;line-height:1.6;}
+    .tags-container{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px;}
+    
+     .result-content{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  max-height: 150px;        /* Scroll limit */
+  overflow-y: auto;         /* Scroll enable */
+  padding-right: 5px;       /* Scrollbar space */
+}
+
+/* Scrollbar styling (Chrome/Edge/Safari) */
+.tags-container::-webkit-scrollbar {
+  width: 6px;
+}
+.tags-container::-webkit-scrollbar-thumb {
+  background: #ff0000;
+  border-radius: 3px;
+}
+.tags-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+    
+    
+    
+    
+    .tag{background:linear-gradient(135deg,#ff0000,#ff5e3a);color:#fff;padding:8px 15px;border-radius:20px;font-size:14px;display:inline-flex;align-items:center;gap:5px;cursor:pointer;}
+
+    .footer{margin-top:30px;color:white;text-align:center;font-size:14px;}
+    .social-heading{color:#ffdd00;margin-top:40px;margin-bottom:15px;font-size:20px;font-weight:700;text-align:center;}
+    .social-links{display:flex;justify-content:center;gap:15px;flex-wrap:wrap;margin-bottom:20px;}
+    .social-links a{color:#fff;font-size:22px;transition:.3s;}
+    .social-links a:hover{color:#ffdd00;}
+
+    @media(max-width:600px){
+      h1{font-size:28px;}
+      input#video-title{font-size:14px;}
+      button{padding:12px 25px;font-size:14px;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fab fa-youtube"></i> YouTube Tag Generator</h1>
+    <p class="subtitle">Generate SEO-Optimized Tags for Your Videos with DeepSeek AI</p>
+  </header>
+
+  <div class="container">
+    <div class="input-section">
+      <label for="video-title">Enter your video title or topic:</label>
+      <div class="search-box">
+        <input type="text" id="video-title" placeholder="Search or enter video title..." />
+        <button class="search-btn" id="search-btn"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button class="generate-btn" id="generate-btn"><i class="fas fa-magic"></i> Generate Tags</button>
+      <button class="clear-btn" id="clear-btn"><i class="fas fa-broom"></i> Clear</button>
+      <!-- Copy button just below Clear -->
+      <button class="copy-btn" id="copy-btn"><i class="fas fa-copy"></i> Copy Tags</button>
+    </div>
+
+    <div class="result-section">
+      <div class="result-title"><i class="fas fa-tags"></i> Generated Tags:</div>
+      <div class="result-content" id="result-content">
+        <div class="tags-container" id="tags-container">
+          <div class="tag"><i class="fas fa-hashtag"></i> Your tags will appear here</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Social Media Section -->
+  <div class="social-heading">🌐 Connect With Ai Seekho India Community</div>
+  <div class="social-links">
+    <a href="https://www.facebook.com/share/1A5SGnQWXV/" target="_blank"><i class="fab fa-facebook"></i></a>
+    <a href="https://x.com/MadanKu96793514?t=W1k_rRGDGG6kA6kCPNHMvQ&s=09" target="_blank"><i class="fab fa-twitter"></i></a>
+    <a href="https://www.instagram.com/madankumar9558?igsh=N24zYmF6ZDdueWFn" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.linkedin.com/in/madan-kumar-58192530a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fab fa-linkedin"></i></a>
+    <a href="https://youtube.com/@aiseekhoi?si=FXDY-UOoMnRwxEf6" target="_blank"><i class="fab fa-youtube"></i></a>
+  </div>
+
+  <div class="footer">
+    <p>⚡ Innovation by  AI | Boost Your YouTube Growth</p>
+    <p>© 2025 YouTube Tag Generator</p>
+  </div>
+
+  <script>
+
+    async function fetchSEOTags(query) {
+    const response = await fetch(`http://localhost:5000/get-tags?q=${encodeURIComponent(query)}`);
+    const data = await response.json();
+    return data.tags || [];
+}
+
+    const videoTitle=document.getElementById('video-title');
+    const generateBtn=document.getElementById('generate-btn');
+    const clearBtn=document.getElementById('clear-btn');
+    const copyBtn=document.getElementById('copy-btn');
+    const searchBtn=document.getElementById('search-btn');
+    const tagsContainer=document.getElementById('tags-container');
+
+    const tagDatabase={
+      cooking:["cooking tutorial","easy recipes","quick meals","food inspiration","recipe ideas"],
+      tech:["tech review","gadget guide","technology news","tech tips","future technology"],
+      fitness:["workout routine","fitness tips","exercise guide","healthy lifestyle","home workout"],
+      gaming:["gaming tutorial","game review","esports","gaming setup","game highlights"],
+      education:["study guide","learning tutorial","knowledge sharing","education tips","academic success"]
+    };
+
+searchBtn.addEventListener('click', async () => {
+  const title = videoTitle.value.trim();
+  if (!title) {
+    alert("Enter a topic to search!");
+    return;
+  }
+
+  tagsContainer.innerHTML = '<div class="tag">⏳ Fetching tags...</div>';
+
+  try {
+    const apiTags = await fetchSEOTags(title);
+    tagsContainer.innerHTML = "";
+    apiTags.forEach(tag => {
+      const el = document.createElement("div");
+      el.className = "tag";
+      el.innerHTML = `<i class="fas fa-hashtag"></i> ${tag}`;
+      el.addEventListener("click", () => navigator.clipboard.writeText(tag));
+      tagsContainer.appendChild(el);
+    });
+  } catch (err) {
+    console.error(err);
+    tagsContainer.innerHTML = '<div class="tag">❌ Failed to fetch tags</div>';
+  }
+});
+
+generateBtn.addEventListener('click', async () => {
+  const title = videoTitle.value.trim();
+  if (!title) {
+    alert("Enter a video title!");
+    return;
+  }
+
+  // पहले local tags generate करो
+  generateTags(title);
+
+  // ✅ अब backend से भी fetch करो
+  try {
+    const apiTags = await fetchSEOTags(title);
+    apiTags.forEach(tag => {
+      const el = document.createElement("div");
+      el.className = "tag";
+      el.innerHTML = `<i class="fas fa-hashtag"></i> ${tag}`;
+      el.addEventListener("click", () => navigator.clipboard.writeText(tag));
+      tagsContainer.appendChild(el);
+    });
+  } catch (err) {
+    console.error(err);
+    alert("Failed to fetch SEO tags from server!");
+  }
+});
+
+
+
+   /* function generateTags(title){
+      tagsContainer.innerHTML="";
+      let category="cooking";
+      const lower=title.toLowerCase();
+      if(lower.includes("tech")||lower.includes("gadget")) category="tech";
+      else if(lower.includes("fitness")||lower.includes("workout")) category="fitness";
+      else if(lower.includes("game")) category="gaming";
+      else if(lower.includes("study")||lower.includes("education")) category="education";
+
+      const baseTags=tagDatabase[category];
+      const words=title.split(" ");
+      const specificTags=words.filter(w=>w.length>4).map(w=>w.toLowerCase());
+      const allTags=[...new Set([...baseTags,...specificTags])].slice(0,20);
+
+      allTags.forEach(tag=>{
+        const el=document.createElement("div");
+        el.className="tag";
+        el.innerHTML=`<i class="fas fa-hashtag"></i> ${tag}`;
+        el.addEventListener('click',()=>navigator.clipboard.writeText(tag));
+        tagsContainer.appendChild(el);
+      });
+    }*/
+
+    // generateBtn.addEventListener('click',()=>{if(videoTitle.value.trim())generateTags(videoTitle.value.trim());else alert("Enter a video title!")});
+    generateBtn.addEventListener('click',()=>{if(videoTitle.value.trim())generateTags(videoTitle.value.trim());else alert("Enter a video title!")});
+   // searchBtn.addEventListener('click',()=>{if(videoTitle.value.trim())alert("Searching for: "+videoTitle.value.trim());else alert("Enter a topic to search!")});
+    clearBtn.addEventListener('click',()=>{videoTitle.value="";tagsContainer.innerHTML='<div class="tag"><i class="fas fa-hashtag"></i> Your tags will appear here</div>';});
+    copyBtn.addEventListener('click',()=>{
+      const tags=[...document.querySelectorAll('.tag')].map(t=>t.innerText.replace('#','').trim()).join(", ");
+      if(!tags||tags.includes("Your tags will appear here")){alert('No tags to copy! Generate tags first.');return;}
+      navigator.clipboard.writeText(tags).then(()=>alert('Tags copied to clipboard!'));
+    });
+  </script>
+</body>
+</html>
+
+

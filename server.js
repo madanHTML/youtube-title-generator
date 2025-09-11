@@ -62,6 +62,7 @@ app.get("/get-tags", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`✅ Server running at https://youtube-title-generator-0d9b.onrender.com:${PORT}`);
+    console.log(`✅ Server running at https://youtube-title-generator-production.up.railway.app:${PORT}`);
 });
+
 

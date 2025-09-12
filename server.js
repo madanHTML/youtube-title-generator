@@ -4,7 +4,7 @@ const cors = require("cors");
 const path = require("path");
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 
 // अपनी YouTube API Key यहाँ डालें
 const YOUTUBE_API_KEY = "AIzaSyAe1y4ElWZM-Db9kHIDQhrUD9dsMPBztLE";
@@ -96,17 +96,7 @@ app.get("/get-tags", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Server running at http://localhost:${PORT}`);
+  console.log(
+    `✅ Server running at https://youtube-title-generator-production.up.railway.app:${PORT}`
+  );
 });
-
-
-
-
-
-
-
-
-
-
-
-
